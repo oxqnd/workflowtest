@@ -37,11 +37,12 @@ jobs:
           script: |
             const fs = require('fs');
             const output = fs.readFileSync('govuln_report.txt', 'utf8');
+            const message = output.trim().length > 0 ? output : '✅ No known vulnerabilities found.';
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🛡️ **Go Vulnerability Report (Multipart Uploader)**\n\n\`\`\`\n${output.substring(0, 6500)}\n\`\`\``
+              body: `🛡️ **Go Vulnerability Report (Multipart Uploader)**\n\n\`\`\`\n${message.substring(0, 6500)}\n\`\`\``
             });
 
   nextjs-security:
@@ -76,9 +77,10 @@ jobs:
           script: |
             const fs = require('fs');
             const output = fs.readFileSync('frontend/audit.txt', 'utf8');
+            const message = output.trim().length > 0 ? output : '✅ No known vulnerabilities found.';
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `🧪 **npm Audit Report (Upload Status UI)**\n\n\`\`\`\n${output.substring(0, 6500)}\n\`\`\``
+              body: `🧪 **npm Audit Report (Upload Status UI)**\n\n\`\`\`\n${message.substring(0, 6500)}\n\`\`\``
             });
